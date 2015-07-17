@@ -1,0 +1,16 @@
+Description: Switch from using distutils to setuptools.
+Author: Daniel Watkins <daniel@daniel-watkins.co.uk>
+Forwarded: not-needed
+Last-Update: 2010-01-31
+
+--- a/setup.py
++++ b/setup.py
+@@ -12,7 +12,7 @@
+ # http://opensource.org/licenses/BSD-3-Clause
+ import os
+ import sys
+-from distutils.core import setup
++from setuptools import setup
+ # a simple import wouldn't work if we moved towards a package with __init__
+ from _version import __version__
+ 

@@ -1,0 +1,32 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+export PYBUILD_NAME=configobj
+
+%:
+	dh $@ --with python2,python3,sphinxdoc --buildsystem=pybuild
+
+override_dh_auto_clean:
+	dh_auto_clean
+	make -C docs clean
+
+override_dh_auto_build:
+	dh_auto_build
+	make -C docs html
+
+override_dh_auto_test:
+	dh_auto_test -- --test-pytest --test-args "$(CURDIR)/tests"
+
+override_dh_compress:
+	dh_compress -X.js
+
+get-orig-source:
+	set -e; \
+	VER=$(shell dpkg-parsechangelog | sed -rne 's,^Version: ([^+]+).*,\1,p'); \
+	uscan --noconf --force-download --download-version=$$VER --destdir=.; \
+	unzip configobj-$$VER.zip; \
+	rm configobj-$$VER.zip; \
+	rm -r __MACOSX; \
+	GZIP=--best tar -cz --owner root --group root --mode a+rX \
+	                -f configobj_$$VER+ds.orig.tar.gz configobj-$$VER; \
+	rm -r configobj-$$VER

@@ -1,0 +1,12 @@
+#!/bin/sh
+set -efu
+
+pythons="$(pyversions -r 2> /dev/null && py3versions -r 2> /dev/null)"
+
+cp -a tests "$ADTTMP"
+cd "$ADTTMP"
+
+for python in $pythons; do
+	echo "=== $python ==="
+	$python -m pytest tests
+done 2>&1

@@ -1,0 +1,2 @@
+Tests: unittests
+Depends: python-all, python-configobj, python-pytest, python3-all, python3-configobj, python3-pytest
